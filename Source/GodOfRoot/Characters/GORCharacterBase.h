@@ -6,6 +6,7 @@
 #include "GameFramework/Character.h"
 #include "GORCharacterBase.generated.h"
 
+class UGORHealthComponentBase;
 UCLASS()
 class GODOFROOT_API AGORCharacterBase : public ACharacter
 {
@@ -24,6 +25,9 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Input") 
 	float BaseLookUpRate;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Components")
+	UGORHealthComponentBase* HealthComponent = nullptr;
+
 public:
 
 	AGORCharacterBase();
@@ -35,10 +39,6 @@ protected:
 	void MoveForward(float Value);
 	
 	void MoveRight(float Value);
-	
-	void TurnAtRate(float Rate);
-
-	void LookUpAtRate(float Rate);
 	
 public:
 	
