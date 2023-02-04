@@ -74,6 +74,14 @@ void AGORCharacterBase::MoveRight(float Value)
 	}
 }
 
+void AGORCharacterBase::Dash()
+{
+	if(DodgeComponent && !GetPlayerController()->bIsDodging)
+	{
+		DodgeComponent->ActivateDodge(this);
+	}
+}
+
 void AGORCharacterBase::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
@@ -85,10 +93,13 @@ void AGORCharacterBase::SetupPlayerInputComponent(UInputComponent* PlayerInputCo
 
 	check(PlayerInputComponent);
 
+	PlayerInputComponent->BindAction("Dash", IE_Pressed, this, &AGORCharacterBase::Dash);
+
 	PlayerInputComponent->BindAxis("MoveForward", this, &AGORCharacterBase::MoveForward);
 	PlayerInputComponent->BindAxis("MoveRight", this, &AGORCharacterBase::MoveRight);
 	
 	PlayerInputComponent->BindAxis("Turn", this, &APawn::AddControllerYawInput);
 	PlayerInputComponent->BindAxis("LookUp", this, &APawn::AddControllerPitchInput);
+
 }
 

@@ -20,8 +20,10 @@ protected:
 public:
 	UDodgeComponent();
 
-protected:
 	void ActivateDodge(AGORCharacterBase* Character);
 
+protected:
+	
+	UFUNCTION()
 	void OnAnimationEnded(UAnimMontage* Montage, bool bInterrupted);
 };

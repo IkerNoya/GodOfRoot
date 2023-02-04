@@ -6,6 +6,7 @@
 #include "GameFramework/CharacterMovementComponent.h"
 #include "GodOfRoot/Characters/GORCharacterBase.h"
 #include "GodOfRoot/Controllers/GORPlayerControllerBase.h"
+#include "Kismet/KismetMathLibrary.h"
 
 
 UDodgeComponent::UDodgeComponent()
@@ -19,16 +20,25 @@ void UDodgeComponent::ActivateDodge(AGORCharacterBase* Character)
 	UAnimInstance* AnimInstance = Character->GetMesh()->GetAnimInstance();
 	check(AnimInstance);
 
-	UAnimMontage* Montage = DodgeMontages[FMath::RandRange(0, DodgeMontages.Num() - 1)];
-	AnimInstance->Montage_Play(Montage);
+	UAnimMontage* Montage = DodgeMontages.Num() > 0 ?
+		DodgeMontages[FMath::RandRange(0, DodgeMontages.Num() - 1)] : nullptr;
+	
+	check(Montage);
 
-	AGORPlayerControllerBase* Controller = CastChecked<AGORPlayerControllerBase>(Character);
-	check(Controller);
+	const FVector Velocity = Character->GetMovementComponent()->Velocity;
+	if(Velocity != FVector::ZeroVector)
+	{
+		const FVector Direction = Character->GetActorLocation() + Velocity;
+		FRotator LookRotation = UKismetMathLibrary::FindLookAtRotation(Character->GetActorLocation(), Direction);
+		Character->SetActorRotation(FRotator(0,LookRotation.Yaw,0));
+	}
+	
+	AnimInstance->Montage_Play(Montage);
 	
 	Character->GetCharacterMovement()->bOrientRotationToMovement = true;
-	Character->DisableInput(Controller);
+	Character->DisableInput(Character->GetPlayerController());
 
-	Controller->bIsDodging = true;
+	Character->GetPlayerController()->bIsDodging = true;
 	
 	if(!AnimInstance->OnMontageBlendingOut.Contains(this, "OnAnimationEnded"))
 	{
@@ -42,13 +52,11 @@ void UDodgeComponent::OnAnimationEnded(UAnimMontage* Montage, bool bInterrupted)
 	check(Character);
 	UAnimInstance* AnimInstance = Character->GetMesh()->GetAnimInstance();
 	check(AnimInstance);
-	AGORPlayerControllerBase* Controller = CastChecked<AGORPlayerControllerBase>(Character);
-	check(Controller);
 
 	Character->GetCharacterMovement()->bOrientRotationToMovement =false;
-	Character->EnableInput(Controller);
+	Character->EnableInput(Character->GetPlayerController());
 	
-	Controller->bIsDodging = false;
+	Character->GetPlayerController()->bIsDodging = false;
 	
 	if(AnimInstance->OnMontageBlendingOut.Contains(this, "OnAnimationEnded"))
 	{
