@@ -20,7 +20,8 @@ public:
 	virtual void Tick(float DeltaTime) override;
 
 private:
-	
+	FTimerHandle ResetAttackTimerHandle;
+
 protected:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
@@ -57,5 +58,9 @@ public:
 
 	UFUNCTION()
 	void OnHealthAdded();
-	
+
+	UFUNCTION(BlueprintCallable)
+	void OnAttack(float AttackCooldown);
+
+	void ResetCanAttack();
 };

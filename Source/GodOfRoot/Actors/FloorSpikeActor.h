@@ -1,7 +1,6 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Components/SphereComponent.h"
 #include "GameFramework/Actor.h"
 #include "FloorSpikeActor.generated.h"
 
@@ -13,8 +12,15 @@ class GODOFROOT_API AFloorSpikeActor : public AActor
 public:
 	AFloorSpikeActor();
 
-public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	float Damage = 25.0f;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	float TimeToExplode = 1.0f;
+
+public:
+	
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
-	USphereComponent* SphereComponent;	
+	class USphereComponent* SphereComponent;
+	
 };

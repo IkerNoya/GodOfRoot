@@ -15,14 +15,13 @@ public:
 protected:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	float Damage;
+	float Damage = 25.0f;
+
+public:
+	
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	class USphereComponent* SphereComponent;	
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	float SpeedMovement;
-	
-public:
-
-	UPROPERTY(EditAnywhere, BlueprintReadOnly)
-	USphereComponent* SphereComponent;	
-	
+	class UProjectileMovementComponent* ProjectileMovementComponent;
 };

@@ -17,6 +17,8 @@ void AEnemyBase::BeginPlay()
 	HealthComponent->OnDamageReceivedDelegate.AddDynamic(this, &AEnemyBase::OnDamageReceived);
 	HealthComponent->OnDeathDelegate.AddDynamic(this, &AEnemyBase::OnDeath);
 	HealthComponent->OnHealthAddedDelegate.AddDynamic(this,&AEnemyBase::OnHealthAdded);
+
+	OnAttack(2.0f);
 	
 }
 
@@ -38,5 +40,17 @@ void AEnemyBase::OnDeath()
 void AEnemyBase::OnHealthAdded()
 {
 	//...
+}
+
+void AEnemyBase::OnAttack(float AttackCooldown)
+{
+	bCanAttack = false;
+	
+	GetWorld()->GetTimerManager().SetTimer(ResetAttackTimerHandle, this, &AEnemyBase::ResetCanAttack, AttackCooldown, false);
+}
+
+void AEnemyBase::ResetCanAttack()
+{
+	bCanAttack = true;
 }
 
