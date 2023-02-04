@@ -14,6 +14,10 @@ class GODOFROOT_API AGORPlayerControllerBase : public APlayerController
 {
 	GENERATED_BODY()
 
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	bool bIsDodging = false;
+	
 protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Rotation")
 	float LookRotationSpeed = .5f;

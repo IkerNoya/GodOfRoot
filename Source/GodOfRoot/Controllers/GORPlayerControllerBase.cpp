@@ -16,6 +16,9 @@ void AGORPlayerControllerBase::BeginPlay()
 void AGORPlayerControllerBase::Tick(float DeltaSeconds)
 {
 	Super::Tick(DeltaSeconds);
+	if(bIsDodging)
+		return;
+	
 	const FVector PawnLocation = GetPawn()->GetActorLocation();
 	FHitResult HitResult;
 	GetHitResultUnderCursor(ECC_Camera, true, HitResult);
