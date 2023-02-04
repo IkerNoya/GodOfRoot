@@ -40,10 +40,6 @@ protected:
 	
 	void MoveRight(float Value);
 	
-	void TurnAtRate(float Rate);
-
-	void LookUpAtRate(float Rate);
-	
 public:
 	
 	virtual void Tick(float DeltaTime) override;
