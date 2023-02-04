@@ -6,6 +6,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="73c678fc-478f-42da-ae0a-c7ea6683dc22" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/Source/GodOfRoot/Actors/FloorSpikeActor.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Source/GodOfRoot/Actors/FloorSpikeActor.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Source/GodOfRoot/Actors/SpikeThrowActor.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Source/GodOfRoot/Actors/SpikeThrowActor.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.GodOfRoot/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.GodOfRoot/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Config/DefaultEditor.ini" beforeDir="false" afterPath="$PROJECT_DIR$/Config/DefaultEditor.ini" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Config/DefaultEngine.ini" beforeDir="false" afterPath="$PROJECT_DIR$/Config/DefaultEngine.ini" afterDir="false" />
