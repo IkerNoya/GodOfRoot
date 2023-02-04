@@ -11,18 +11,43 @@ class GODOFROOT_API AGORCharacterBase : public ACharacter
 {
 	GENERATED_BODY()
 
+protected:
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Camera")
+	class USpringArmComponent* CameraBoom = nullptr;
+
+	/** Follow camera */
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Camera")
+	class UCameraComponent* FollowCamera = nullptr;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Input") 
+	float BaseTurnRate;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Input") 
+	float BaseLookUpRate;
+
 public:
-	// Sets default values for this character's properties
+
 	AGORCharacterBase();
 
 protected:
-	// Called when the game starts or when spawned
+
 	virtual void BeginPlay() override;
+	
+	void MoveForward(float Value);
+	
+	void MoveRight(float Value);
+	
+	void TurnAtRate(float Rate);
 
+	void LookUpAtRate(float Rate);
+	
 public:
-	// Called every frame
+	
 	virtual void Tick(float DeltaTime) override;
-
-	// Called to bind functionality to input
+	
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+	
+	FORCEINLINE class USpringArmComponent* GetCameraBoom() const { return CameraBoom; }
+
+	FORCEINLINE class UCameraComponent* GetFollowCamera() const { return FollowCamera; }
+	
 };
