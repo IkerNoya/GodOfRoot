@@ -1,36 +1,47 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
-
 #include "GORHealthComponentBase.h"
 
 
-// Sets default values for this component's properties
 UGORHealthComponentBase::UGORHealthComponentBase()
 {
-	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
-	// off to improve performance if you don't need them.
-	PrimaryComponentTick.bCanEverTick = true;
-
-	// ...
-}
-
-
-// Called when the game starts
-void UGORHealthComponentBase::BeginPlay()
-{
-	Super::BeginPlay();
-
-	// ...
 	
 }
 
-
-// Called every frame
-void UGORHealthComponentBase::TickComponent(float DeltaTime, ELevelTick TickType,
-                                            FActorComponentTickFunction* ThisTickFunction)
+bool UGORHealthComponentBase::ApplyDamage(float Damage, AActor* DamageInstigator, UObject* DamageCause)
 {
-	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
+	if(bIsDead)
+	{
+		return false;
+	}
 
-	// ...
+	if(bCanReceiveDamage)
+	{
+		Health -= Damage;
+
+		if(Health <= 0.0f)
+		{
+			bIsDead = true;
+			Health = 0.0f;
+			bCanReceiveDamage =false;
+
+			OnDeathDelegate.Broadcast();
+		}
+
+		return true;
+	}
+
+	return false;
+
+}
+
+void UGORHealthComponentBase::AddHealth(float ExtraHealth)
+{
+	Health += ExtraHealth;
+
+	if(Health >= MaxHealth)
+	{
+		Health = MaxHealth;
+	}
+
+	OnHealthAddedDelegate.Broadcast();
 }
 

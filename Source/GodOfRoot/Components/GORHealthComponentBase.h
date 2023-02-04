@@ -6,22 +6,55 @@
 #include "Components/ActorComponent.h"
 #include "GORHealthComponentBase.generated.h"
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnDamageReceivedSignature, AActor*, DamageInstigator, UObject*, DamageCause);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnDeathSignature);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnHealthAddedSignature);
 
 UCLASS(ClassGroup=(Custom), meta=(BlueprintSpawnableComponent))
 class GODOFROOT_API UGORHealthComponentBase : public UActorComponent
 {
 	GENERATED_BODY()
-
+	
 public:
-	// Sets default values for this component's properties
 	UGORHealthComponentBase();
 
-protected:
-	// Called when the game starts
-	virtual void BeginPlay() override;
+private:
 
+protected:
+	UPROPERTY(EditAnywhere)
+	float Health;
+
+	UPROPERTY(EditAnywhere)
+	float MaxHealth;
+
+	UPROPERTY(VisibleAnywhere)
+	bool bIsDead = false;
+
+	UPROPERTY(EditAnywhere)
+	bool bCanReceiveDamage = true;
+	
 public:
-	// Called every frame
-	virtual void TickComponent(float DeltaTime, ELevelTick TickType,
-	                           FActorComponentTickFunction* ThisTickFunction) override;
+
+
+	UFUNCTION(BlueprintCallable)
+	bool ApplyDamage(float Damage, AActor* DamageInstigator, UObject* DamageCause);
+
+	void AddHealth(float ExtraHealth);
+
+	UPROPERTY(BlueprintAssignable)
+	FOnDamageReceivedSignature OnDamageReceivedDelegate;
+
+	UPROPERTY(BlueprintAssignable)
+	FOnDeathSignature OnDeathDelegate;
+
+	UPROPERTY(BlueprintAssignable)
+	FOnHealthAddedSignature OnHealthAddedDelegate;
+
+	inline float GetHealth() const {return Health; }
+	inline float GetMaxHealth() const { return MaxHealth; }
+
+	inline bool GetIsDead() const { return bIsDead; }
+
+	inline bool GetCanReceiveDamage() const { return bCanReceiveDamage; }
+	
 };
