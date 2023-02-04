@@ -56,8 +56,6 @@ public:
 
 	UFUNCTION(BlueprintPure)
 	FORCEINLINE class UCameraComponent* GetFollowCamera() const { return FollowCamera; }
-
-	UGORHealthComponentBase* GetHealthComponent() const { return HealthComponent; }
 	
 	UFUNCTION(BlueprintPure)
 	FORCEINLINE UGORHealthComponentBase* GetHealthComponent() const { return HealthComponent; }
