@@ -6,6 +6,7 @@
 #include "GameFramework/Character.h"
 #include "GORCharacterBase.generated.h"
 
+class UDodgeComponent;
 class UGORHealthComponentBase;
 UCLASS()
 class GODOFROOT_API AGORCharacterBase : public ACharacter
@@ -28,6 +29,10 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Components")
 	UGORHealthComponentBase* HealthComponent = nullptr;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Components")
+	UDodgeComponent* DodgeComponent = nullptr;
+
+
 public:
 
 	AGORCharacterBase();
@@ -45,9 +50,13 @@ public:
 	virtual void Tick(float DeltaTime) override;
 	
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
-	
+
+	UFUNCTION(BlueprintPure)
 	FORCEINLINE class USpringArmComponent* GetCameraBoom() const { return CameraBoom; }
 
+	UFUNCTION(BlueprintPure)
 	FORCEINLINE class UCameraComponent* GetFollowCamera() const { return FollowCamera; }
 	
+	UFUNCTION(BlueprintPure)
+	FORCEINLINE UGORHealthComponentBase* GetHealthComponent() const { return HealthComponent; }
 };

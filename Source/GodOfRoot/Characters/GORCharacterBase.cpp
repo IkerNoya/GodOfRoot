@@ -8,6 +8,7 @@
 #include "GameFramework/CharacterMovementComponent.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "GodOfRoot/Animation/AGORBaseCharacterAnimInstance.h"
+#include "GodOfRoot/Components/DodgeComponent.h"
 #include "GodOfRoot/Components/GORHealthComponentBase.h"
 
 
@@ -33,6 +34,8 @@ AGORCharacterBase::AGORCharacterBase()
 	FollowCamera->bUsePawnControlRotation = false;
 
 	HealthComponent = CreateDefaultSubobject<UGORHealthComponentBase>(TEXT("HealthComponent"));
+
+	DodgeComponent = CreateDefaultSubobject<UDodgeComponent>(TEXT("DodgeComponent"));
 	
 	PrimaryActorTick.bCanEverTick = true;
 }
