@@ -34,6 +34,9 @@ void AEnemyBase::OnDamageReceived(AActor* DamageInstigator, UObject* DamageCause
 
 void AEnemyBase::OnDeath()
 {
+	bCanAttack = false;
+	ResetAttackTimerHandle.Invalidate();
+	
 	SetLifeSpan(1.0f);
 }
 
