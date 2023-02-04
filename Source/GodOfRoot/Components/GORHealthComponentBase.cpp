@@ -45,3 +45,8 @@ void UGORHealthComponentBase::AddHealth(float ExtraHealth)
 	OnHealthAddedDelegate.Broadcast();
 }
 
+void UGORHealthComponentBase::SetCanReceiveDamage(bool Val)
+{
+	bCanReceiveDamage = Val;
+}
+

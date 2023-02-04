@@ -56,5 +56,7 @@ public:
 	inline bool GetIsDead() const { return bIsDead; }
 
 	inline bool GetCanReceiveDamage() const { return bCanReceiveDamage; }
+
+	void SetCanReceiveDamage(bool Val);
 	
 };
