@@ -18,12 +18,6 @@ struct FAttackData
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Combat")
 	float Damage = 0.f;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Combat")
-	float TimeBetweenHits;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Combat")
-	TArray<USoundBase*> HitSound;
 };
 
 USTRUCT(BlueprintType)
@@ -52,6 +46,9 @@ class GODOFROOT_API UCombatComponent : public UActorComponent
 	int32 CurrentAttackIndex = 0;
 
 protected:
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Combat")
+	USoundBase* HitSound;
+	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Combat")
 	TArray<FComboData> Combos;
 
@@ -69,6 +66,9 @@ protected:
 	
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Combat")
 	TEnumAsByte<EDrawDebugTrace::Type> DrawType;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Combat")
+	float TimeBetweenHits = 0.5f;
 
 	UPROPERTY()
 	TArray<AActor*> EnemiesHit;

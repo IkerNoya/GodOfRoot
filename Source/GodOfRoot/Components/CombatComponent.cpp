@@ -43,14 +43,9 @@ void UCombatComponent::CheckHit()
 			UGORHealthComponentBase* HealthComponent = CastChecked<UGORHealthComponentBase>(Enemy->GetComponentByClass(UGORHealthComponentBase::StaticClass()));
 			HealthComponent->ApplyDamage(CurrentDamage, GetOwner(), nullptr);
 			EnemiesHit.Add(Enemy);
-			if(CurrentCombo.Combo[CurrentAttackIndex].HitSound.Num() > 0)
+			if(HitSound)
 			{
-				const int32 NumberOfSounds = CurrentCombo.Combo[CurrentAttackIndex].HitSound.Num();
-				USoundBase* Sound = CurrentCombo.Combo[CurrentAttackIndex].HitSound[FMath::RandRange(0, NumberOfSounds - 1)];
-				if(Sound)
-				{
-					UGameplayStatics::PlaySound2D(GetWorld(), Sound);
-				}
+				UGameplayStatics::PlaySound2D(GetWorld(), HitSound);
 			}
 		}
 	}
@@ -107,9 +102,9 @@ void UCombatComponent::CancelAttack()
 void UCombatComponent::MontageFinished(UAnimMontage* Montage, bool bInterrupted)
 {
 	bCanAttack=true;
-	if(CurrentCombo.Combo.Num()>0)
+	if(CurrentCombo.Combo.Num()>0 && GetWorld())
 	{
-		GetWorld()->GetTimerManager().SetTimer(TimeBetweenHitsHandle, this, &UCombatComponent::CancelCombo, CurrentCombo.Combo[CurrentCombo.AttackIndex].TimeBetweenHits, false);
+		GetWorld()->GetTimerManager().SetTimer(TimeBetweenHitsHandle, this, &UCombatComponent::CancelCombo, TimeBetweenHits, false);
 	}
 }
 

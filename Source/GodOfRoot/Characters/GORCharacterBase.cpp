@@ -63,7 +63,7 @@ void AGORCharacterBase::BeginPlay()
  
 void AGORCharacterBase::MoveForward(float Value)
 {
-	if ((Controller) && (Value != 0.0f))
+	if ((Controller) && (Value != 0.0f) && HealthComponent && !HealthComponent->GetIsDead())
 	{
 		const FRotator Rotation = Controller->GetControlRotation();
 		const FRotator YawRotation(0, Rotation.Yaw, 0);
@@ -75,7 +75,7 @@ void AGORCharacterBase::MoveForward(float Value)
 
 void AGORCharacterBase::MoveRight(float Value)
 {
-	if ( (Controller) && (Value != 0.0f) )
+	if ( (Controller) && (Value != 0.0f) && HealthComponent && !HealthComponent->GetIsDead())
 	{
 		const FRotator Rotation = Controller->GetControlRotation();
 		const FRotator YawRotation(0, Rotation.Yaw, 0);
@@ -87,7 +87,7 @@ void AGORCharacterBase::MoveRight(float Value)
 
 void AGORCharacterBase::Dash()
 {
-	if(DodgeComponent && !GetPlayerControllerBase()->bIsDodging)
+	if(DodgeComponent && !GetPlayerControllerBase()->bIsDodging && HealthComponent && !HealthComponent->GetIsDead())
 	{
 		DodgeComponent->ActivateDodge(this);
 		if(CombatComponent &&  CombatComponent->IsAttacking())
@@ -99,7 +99,7 @@ void AGORCharacterBase::Dash()
 
 void AGORCharacterBase::Attack()
 {
-	if(CombatComponent)
+	if(CombatComponent && HealthComponent && !HealthComponent->GetIsDead())
 	{
 		CombatComponent->Attack(this);
 	}
