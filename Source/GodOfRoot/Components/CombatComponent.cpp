@@ -8,6 +8,7 @@
 #include "GodOfRoot/Characters/EnemyBase.h"
 #include "GodOfRoot/Characters/GORCharacterBase.h"
 #include "Kismet/BlueprintAsyncActionBase.h"
+#include "Kismet/GameplayStatics.h"
 #include "Kismet/KismetSystemLibrary.h"
 
 void UCombatComponent::BeginPlay()
@@ -42,6 +43,15 @@ void UCombatComponent::CheckHit()
 			UGORHealthComponentBase* HealthComponent = CastChecked<UGORHealthComponentBase>(Enemy->GetComponentByClass(UGORHealthComponentBase::StaticClass()));
 			HealthComponent->ApplyDamage(CurrentDamage, GetOwner(), nullptr);
 			EnemiesHit.Add(Enemy);
+			if(CurrentCombo.Combo[CurrentAttackIndex].HitSound.Num() > 0)
+			{
+				const int32 NumberOfSounds = CurrentCombo.Combo[CurrentAttackIndex].HitSound.Num();
+				USoundBase* Sound = CurrentCombo.Combo[CurrentAttackIndex].HitSound[FMath::RandRange(0, NumberOfSounds - 1)];
+				if(Sound)
+				{
+					UGameplayStatics::PlaySound2D(GetWorld(), Sound);
+				}
+			}
 		}
 	}
 }
@@ -60,6 +70,7 @@ void UCombatComponent::Attack(AGORCharacterBase* Character)
 	{
 		CurrentCombo = Combos[0];
 		CurrentCombo.AttackIndex = 0;
+		CurrentAttackIndex = 0;
 		AnimInstance->Montage_Play(CurrentCombo.Combo[CurrentCombo.AttackIndex].Montage);
 		AnimInstance->OnMontageBlendingOut.AddDynamic(this, &UCombatComponent::MontageFinished);
 		CurrentCombo.AttackIndex++;
@@ -78,6 +89,7 @@ void UCombatComponent::Attack(AGORCharacterBase* Character)
 		}
 		else
 		{
+			CurrentAttackIndex = CurrentCombo.AttackIndex;
 			AnimInstance->Montage_Play(CurrentCombo.Combo[CurrentCombo.AttackIndex].Montage);
 			AnimInstance->OnMontageBlendingOut.AddDynamic(this, &UCombatComponent::MontageFinished);
 			CurrentDamage = CurrentCombo.Combo[CurrentCombo.AttackIndex].Damage;
@@ -106,6 +118,7 @@ void UCombatComponent::CancelCombo()
 	CurrentCombo = FComboData();
 	bIsAttacking = false;
 	bCanAttack = true;
+	EndHit();
 }
 
 
