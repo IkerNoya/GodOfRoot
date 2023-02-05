@@ -27,8 +27,13 @@ void AEnemyBase::OnDeath()
 {
 	bCanAttack = false;
 	ResetAttackTimerHandle.Invalidate();
+
+	//if(DeathMontage)
+	//{
+	//	GetMesh()->GetAnimInstance()->Montage_Play(DeathMontage);
+	//}
 	
-	SetLifeSpan(1.0f);
+	//SetLifeSpan(1.0f);
 }
 
 void AEnemyBase::OnHealthAdded()
@@ -38,6 +43,14 @@ void AEnemyBase::OnHealthAdded()
 
 void AEnemyBase::OnAttack(float AttackCooldown)
 {
+	if(AttackMontage)
+	{
+		if(GetMesh()->GetAnimInstance())
+		{
+			GetMesh()->GetAnimInstance()->Montage_Play(AttackMontage);
+		}
+	}
+	
 	bCanAttack = false;
 	
 	GetWorld()->GetTimerManager().SetTimer(ResetAttackTimerHandle, this, &AEnemyBase::ResetCanAttack, AttackCooldown, false);

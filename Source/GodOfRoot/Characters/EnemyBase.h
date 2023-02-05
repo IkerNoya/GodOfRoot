@@ -28,6 +28,19 @@ protected:
 public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	UAnimMontage* AttackMontage;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	UAnimMontage* HitMontage;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	UAnimMontage* IdleMontage;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	UAnimMontage* DeathMontage;
+	
+	
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 	class UGORHealthComponentBase* HealthComponent;
 
 	UFUNCTION()

@@ -21,6 +21,11 @@ void ASauceEnemy::OnDamageReceived(AActor* DamageInstigator, UObject* DamageCaus
 		return;
 	}
 
+	if(HitMontage && !GetMesh()->GetAnimInstance()->Montage_IsPlaying(AttackMontage))
+	{
+		GetMesh()->GetAnimInstance()->Montage_Play(HitMontage);
+	}
+	
 	float Percentage = (HealthComponent->GetHealth() / HealthComponent->GetMaxHealth()) * 100.0f;
 
 	ActualPhase = 0;
