@@ -48,6 +48,8 @@ class GODOFROOT_API UCombatComponent : public UActorComponent
 	bool bIsAttacking = false;
 
 	float CurrentDamage = 0;
+	
+	int32 CurrentAttackIndex = 0;
 
 protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Combat")
