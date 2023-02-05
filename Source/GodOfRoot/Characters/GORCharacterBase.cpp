@@ -8,6 +8,7 @@
 #include "GameFramework/CharacterMovementComponent.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "GodOfRoot/Animation/AGORBaseCharacterAnimInstance.h"
+#include "GodOfRoot/Components/CombatComponent.h"
 #include "GodOfRoot/Components/DodgeComponent.h"
 #include "GodOfRoot/Components/GORHealthComponentBase.h"
 #include "GodOfRoot/Controllers/GORPlayerControllerBase.h"
@@ -38,8 +39,11 @@ AGORCharacterBase::AGORCharacterBase()
 
 	DodgeComponent = CreateDefaultSubobject<UDodgeComponent>(TEXT("DodgeComponent"));
 	
+	CombatComponent = CreateDefaultSubobject<UCombatComponent>(TEXT("CombatComponent"));
+	
 	PrimaryActorTick.bCanEverTick = true;
 }
+
 
 void AGORCharacterBase::BeginPlay()
 {
@@ -48,6 +52,12 @@ void AGORCharacterBase::BeginPlay()
 	if(auto* AnimInstance = Cast<UAGORBaseCharacterAnimInstance>(GetMesh()->GetAnimInstance()))
 	{
 		AnimInstance->Character = this;
+	}
+
+	if(HealthComponent)
+	{
+		HealthComponent->OnDeathDelegate.AddDynamic(this, &AGORCharacterBase::Die);
+		HealthComponent->OnDamageReceivedDelegate.AddDynamic(this, &AGORCharacterBase::OnDamageReceived);
 	}
 }
  
@@ -80,6 +90,18 @@ void AGORCharacterBase::Dash()
 	if(DodgeComponent && !GetPlayerControllerBase()->bIsDodging)
 	{
 		DodgeComponent->ActivateDodge(this);
+		if(CombatComponent &&  CombatComponent->IsAttacking())
+		{
+			CombatComponent->CancelCombo();
+		}
+	}
+}
+
+void AGORCharacterBase::Attack()
+{
+	if(CombatComponent)
+	{
+		CombatComponent->Attack(this);
 	}
 }
 
@@ -95,6 +117,7 @@ void AGORCharacterBase::SetupPlayerInputComponent(UInputComponent* PlayerInputCo
 	check(PlayerInputComponent);
 
 	PlayerInputComponent->BindAction("Dash", IE_Pressed, this, &AGORCharacterBase::Dash);
+	PlayerInputComponent->BindAction("Attack", IE_Pressed, this, &AGORCharacterBase::Attack);
 
 	PlayerInputComponent->BindAxis("MoveForward", this, &AGORCharacterBase::MoveForward);
 	PlayerInputComponent->BindAxis("MoveRight", this, &AGORCharacterBase::MoveRight);

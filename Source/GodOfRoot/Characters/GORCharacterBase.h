@@ -6,6 +6,7 @@
 #include "GameFramework/Character.h"
 #include "GORCharacterBase.generated.h"
 
+class UCombatComponent;
 class UDodgeComponent;
 class UGORHealthComponentBase;
 UCLASS()
@@ -31,14 +32,16 @@ protected:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Components")
 	UDodgeComponent* DodgeComponent = nullptr;
-
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Components")
+	UCombatComponent* CombatComponent;
 
 public:
 
 	AGORCharacterBase();
 
 protected:
-
+	
 	virtual void BeginPlay() override;
 	
 	void MoveForward(float Value);
@@ -46,6 +49,13 @@ protected:
 	void MoveRight(float Value);
 
 	void Dash();
+	
+	void Attack();
+
+	UFUNCTION(BlueprintImplementableEvent)
+	void Die();
+	UFUNCTION(BlueprintImplementableEvent)
+	void OnDamageReceived(AActor* DamageInstigator, UObject* DamageCause);
 	
 public:
 	
@@ -55,13 +65,13 @@ public:
 
 	UFUNCTION(BlueprintPure)
 	FORCEINLINE class USpringArmComponent* GetCameraBoom() const { return CameraBoom; }
-
+	
 	UFUNCTION(BlueprintPure)
 	FORCEINLINE class UCameraComponent* GetFollowCamera() const { return FollowCamera; }
 	
 	UFUNCTION(BlueprintPure)
 	FORCEINLINE UGORHealthComponentBase* GetHealthComponent() const { return HealthComponent; }
-
+	
 	UFUNCTION(BlueprintPure)
 	class AGORPlayerControllerBase* GetPlayerControllerBase();
 };
