@@ -24,7 +24,6 @@ void UDodgeComponent::ActivateDodge(AGORCharacterBase* Character)
 		DodgeMontages[FMath::RandRange(0, DodgeMontages.Num() - 1)] : nullptr;
 	
 	check(Montage);
-	check(Character->GetPlayerControllerBase());
 
 	AGORPlayerControllerBase* PlayerController = Character->GetPlayerControllerBase();
 	if(!PlayerController)

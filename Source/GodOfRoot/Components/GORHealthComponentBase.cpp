@@ -17,6 +17,8 @@ bool UGORHealthComponentBase::ApplyDamage(float Damage, AActor* DamageInstigator
 	{
 		Health -= Damage;
 
+		OnDamageReceivedDelegate.Broadcast(DamageInstigator, DamageCause);
+		
 		if(Health <= 0.0f)
 		{
 			bIsDead = true;
