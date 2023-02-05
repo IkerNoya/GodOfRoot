@@ -28,8 +28,8 @@ void ASpikeThrowActor::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActo
 	{
 		if(AGORCharacterBase* Player = Cast<AGORCharacterBase>(OtherActor))
 		{
-			Player->GetHealthComponent()->ApplyDamage(Damage, GetInstigator(), this);
-			Destroy();
+			if(Player->GetHealthComponent()->ApplyDamage(Damage, GetInstigator(), this))
+				Destroy();
 		}
 	}
 }
