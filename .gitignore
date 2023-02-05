@@ -74,4 +74,4 @@ Plugins/*/Intermediate/*
 DerivedDataCache/*
 
 # Misc folders and files
-.idea/
+*.idea/
