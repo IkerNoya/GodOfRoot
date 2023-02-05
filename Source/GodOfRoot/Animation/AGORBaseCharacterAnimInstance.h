@@ -24,6 +24,8 @@ protected:
 	bool bIsFalling = false;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Player")
 	float Speed;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Player")
+	float Direction;
 	
 	virtual void NativeUpdateAnimation(float DeltaSeconds) override;
 	

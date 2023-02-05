@@ -15,4 +15,5 @@ void UAGORBaseCharacterAnimInstance::NativeUpdateAnimation(float DeltaSeconds)
 
 	bIsFalling = Character->GetMovementComponent()->IsFalling();
 	Speed = Character->GetMovementComponent()->Velocity.Size();
+	Direction = CalculateDirection(Character->GetMovementComponent()->Velocity, Character->GetActorRotation());
 }

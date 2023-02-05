@@ -50,13 +50,19 @@ public:
 	UPROPERTY(BlueprintAssignable)
 	FOnHealthAddedSignature OnHealthAddedDelegate;
 
-	inline float GetHealth() const {return Health; }
-	inline float GetMaxHealth() const { return MaxHealth; }
+	UFUNCTION(BlueprintPure)
+	FORCEINLINE float GetHealth() const {return Health; }
+	
+	UFUNCTION(BlueprintPure)
+	FORCEINLINE float GetMaxHealth() const { return MaxHealth; }
 
-	inline bool GetIsDead() const { return bIsDead; }
+	UFUNCTION(BlueprintPure)
+	FORCEINLINE bool GetIsDead() const { return bIsDead; }
 
-	inline bool GetCanReceiveDamage() const { return bCanReceiveDamage; }
+	UFUNCTION(BlueprintPure)
+	FORCEINLINE bool GetCanReceiveDamage() const { return bCanReceiveDamage; }
 
+	UFUNCTION(BlueprintCallable)
 	void SetCanReceiveDamage(bool Val);
 	
 };

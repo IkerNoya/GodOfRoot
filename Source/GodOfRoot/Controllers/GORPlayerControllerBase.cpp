@@ -24,15 +24,15 @@ void AGORPlayerControllerBase::Tick(float DeltaSeconds)
 	GetHitResultUnderCursor(ECC_Camera, true, HitResult);
 	FRotator LookRotation;
 	
-	// if(HitResult.ImpactPoint == FVector.)
-	// {
+	if(HitResult.bBlockingHit)
+	{
 		LookRotation = UKismetMathLibrary::FindLookAtRotation(PawnLocation, HitResult.ImpactPoint);
-	// }
-	// else
-	// {
-	// 	const FVector PlayerDirection = GetPawn()->GetVelocity() + PawnLocation;
-	// 	LookRotation = UKismetMathLibrary::FindLookAtRotation(PawnLocation, PlayerDirection);
-	// }
+	}
+	else
+	{
+		const FVector PlayerDirection = GetPawn()->GetVelocity() + PawnLocation;
+		LookRotation = UKismetMathLibrary::FindLookAtRotation(PawnLocation, PlayerDirection);
+	}
 	GetPawn()->SetActorRotation(FMath::RInterpTo(GetPawn()->GetActorRotation(), FRotator(0,LookRotation.Yaw,0), DeltaSeconds, LookRotationSpeed));
 }
 	
