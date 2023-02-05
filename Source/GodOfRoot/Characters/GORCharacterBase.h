@@ -4,7 +4,6 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
-#include "GodOfRoot/Controllers/GORPlayerControllerBase.h"
 #include "GORCharacterBase.generated.h"
 
 class UDodgeComponent;
@@ -64,5 +63,5 @@ public:
 	FORCEINLINE UGORHealthComponentBase* GetHealthComponent() const { return HealthComponent; }
 
 	UFUNCTION(BlueprintPure)
-	FORCEINLINE class AGORPlayerControllerBase* GetPlayerController() {return CastChecked<AGORPlayerControllerBase>(GetController());}
+	class AGORPlayerControllerBase* GetPlayerControllerBase();
 };

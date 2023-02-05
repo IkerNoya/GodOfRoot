@@ -8,7 +8,8 @@
 void AGORPlayerControllerBase::BeginPlay()
 {
 	Super::BeginPlay();
-	FInputModeGameAndUI InputMode = FInputModeGameAndUI();
+	FInputModeGameOnly InputMode = FInputModeGameOnly();
+	InputMode.SetConsumeCaptureMouseDown(false);
 	SetInputMode(InputMode);
 	SetShowMouseCursor(true);
 }
@@ -22,7 +23,17 @@ void AGORPlayerControllerBase::Tick(float DeltaSeconds)
 	const FVector PawnLocation = GetPawn()->GetActorLocation();
 	FHitResult HitResult;
 	GetHitResultUnderCursor(ECC_Camera, true, HitResult);
-	FRotator LookRotation = UKismetMathLibrary::FindLookAtRotation(PawnLocation, HitResult.ImpactPoint);
+	FRotator LookRotation;
+	
+	// if(HitResult.ImpactPoint == FVector.)
+	// {
+		LookRotation = UKismetMathLibrary::FindLookAtRotation(PawnLocation, HitResult.ImpactPoint);
+	// }
+	// else
+	// {
+	// 	const FVector PlayerDirection = GetPawn()->GetVelocity() + PawnLocation;
+	// 	LookRotation = UKismetMathLibrary::FindLookAtRotation(PawnLocation, PlayerDirection);
+	// }
 	GetPawn()->SetActorRotation(FMath::RInterpTo(GetPawn()->GetActorRotation(), FRotator(0,LookRotation.Yaw,0), DeltaSeconds, LookRotationSpeed));
 }
 	

@@ -24,6 +24,12 @@ void UDodgeComponent::ActivateDodge(AGORCharacterBase* Character)
 		DodgeMontages[FMath::RandRange(0, DodgeMontages.Num() - 1)] : nullptr;
 	
 	check(Montage);
+	check(Character->GetPlayerControllerBase());
+
+	AGORPlayerControllerBase* PlayerController = Character->GetPlayerControllerBase();
+	if(!PlayerController)
+		return;
+
 
 	const FVector Velocity = Character->GetMovementComponent()->Velocity;
 	if(Velocity != FVector::ZeroVector)
@@ -36,10 +42,10 @@ void UDodgeComponent::ActivateDodge(AGORCharacterBase* Character)
 	AnimInstance->Montage_Play(Montage);
 	
 	Character->GetCharacterMovement()->bOrientRotationToMovement = true;
-	Character->DisableInput(Character->GetPlayerController());
+	Character->DisableInput(PlayerController);
 
-	Character->GetPlayerController()->bIsDodging = true;
-	
+	PlayerController->bIsDodging = true;
+
 	if(!AnimInstance->OnMontageBlendingOut.Contains(this, "OnAnimationEnded"))
 	{
 		AnimInstance->OnMontageBlendingOut.AddDynamic(this, &UDodgeComponent::OnAnimationEnded);
@@ -50,16 +56,32 @@ void UDodgeComponent::OnAnimationEnded(UAnimMontage* Montage, bool bInterrupted)
 {
 	AGORCharacterBase* Character = CastChecked<AGORCharacterBase>(GetOwner());
 	check(Character);
+	
 	UAnimInstance* AnimInstance = Character->GetMesh()->GetAnimInstance();
 	check(AnimInstance);
-
-	Character->GetCharacterMovement()->bOrientRotationToMovement =false;
-	Character->EnableInput(Character->GetPlayerController());
 	
-	Character->GetPlayerController()->bIsDodging = false;
+	AGORPlayerControllerBase* PlayerController = Character->GetPlayerControllerBase();
+	if(!PlayerController)
+		return;
+		
+	Character->GetCharacterMovement()->bOrientRotationToMovement =false;
+	Character->EnableInput(PlayerController);
+	
+	PlayerController->bIsDodging = false;
+}
+
+void UDodgeComponent::OnComponentDestroyed(bool bDestroyingHierarchy)
+{
+	AGORCharacterBase* Character = CastChecked<AGORCharacterBase>(GetOwner());
+	check(Character);
+	
+	UAnimInstance* AnimInstance = Character->GetMesh()->GetAnimInstance();
+	check(AnimInstance);
 	
 	if(AnimInstance->OnMontageBlendingOut.Contains(this, "OnAnimationEnded"))
 	{
 		AnimInstance->OnMontageBlendingOut.RemoveDynamic(this, &UDodgeComponent::OnAnimationEnded);
 	}
+	
+	Super::OnComponentDestroyed(bDestroyingHierarchy);
 }

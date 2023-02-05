@@ -26,4 +26,6 @@ protected:
 	
 	UFUNCTION()
 	void OnAnimationEnded(UAnimMontage* Montage, bool bInterrupted);
+
+	virtual void OnComponentDestroyed(bool bDestroyingHierarchy) override;
 };
