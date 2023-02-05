@@ -10,6 +10,7 @@
 #include "GodOfRoot/Animation/AGORBaseCharacterAnimInstance.h"
 #include "GodOfRoot/Components/DodgeComponent.h"
 #include "GodOfRoot/Components/GORHealthComponentBase.h"
+#include "GodOfRoot/Controllers/GORPlayerControllerBase.h"
 
 
 AGORCharacterBase::AGORCharacterBase()
@@ -76,7 +77,7 @@ void AGORCharacterBase::MoveRight(float Value)
 
 void AGORCharacterBase::Dash()
 {
-	if(DodgeComponent && !GetPlayerController()->bIsDodging)
+	if(DodgeComponent && !GetPlayerControllerBase()->bIsDodging)
 	{
 		DodgeComponent->ActivateDodge(this);
 	}
@@ -97,9 +98,15 @@ void AGORCharacterBase::SetupPlayerInputComponent(UInputComponent* PlayerInputCo
 
 	PlayerInputComponent->BindAxis("MoveForward", this, &AGORCharacterBase::MoveForward);
 	PlayerInputComponent->BindAxis("MoveRight", this, &AGORCharacterBase::MoveRight);
-	
-	PlayerInputComponent->BindAxis("Turn", this, &APawn::AddControllerYawInput);
-	PlayerInputComponent->BindAxis("LookUp", this, &APawn::AddControllerPitchInput);
+}
 
+AGORPlayerControllerBase* AGORCharacterBase::GetPlayerControllerBase()
+{
+	AGORPlayerControllerBase* PlayerController = nullptr;
+	if(auto* CastedPlayerController = Cast<AGORPlayerControllerBase>(GetController()))
+	{
+		PlayerController = CastedPlayerController;
+	}
+	return PlayerController;
 }
 
