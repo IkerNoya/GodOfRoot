@@ -3,3 +3,7 @@
 
 #include "MiniSauceEnemy.h"
 
+void AMiniSauceEnemy::OnDeath()
+{
+	Destroy();
+}

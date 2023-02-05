@@ -20,5 +20,6 @@ protected:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Attack")
 	float AttackRange = 300.0f;
-	
+
+	virtual void OnDeath() override;
 };
