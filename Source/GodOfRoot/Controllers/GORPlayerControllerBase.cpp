@@ -9,7 +9,6 @@ void AGORPlayerControllerBase::BeginPlay()
 {
 	Super::BeginPlay();
 	FInputModeGameOnly InputMode = FInputModeGameOnly();
-	InputMode.SetConsumeCaptureMouseDown(false);
 	SetInputMode(InputMode);
 	SetShowMouseCursor(true);
 }
